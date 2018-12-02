@@ -1,0 +1,106 @@
+#include<stdio.h>
+#include<string.h>
+#include<stdlib.h>
+#include<conio.h>
+
+struct tree
+{
+	char data[30];
+	struct tree* left;
+	struct tree* right;
+};
+struct tree *insert(char *data)
+{
+	struct tree *temp = (struct tree*)malloc(sizeof(struct tree));
+	strcpy(temp->data,data);
+	temp->left=NULL;
+	temp->right=NULL;
+	return temp;
+};
+struct tree *find(struct tree *p,char *ch)
+{
+	if(p==NULL)
+		return(NULL);
+	if(!strcmp(p->data,ch))
+		return p;
+	struct tree *temp=find(p->left,ch);
+	if(temp!=NULL)
+		return temp;
+	temp=find(p->right,ch);
+	return temp;
+};
+struct tree *findparent(struct tree *p,char *ch)
+{
+	if(p==NULL)
+		return(NULL);
+	if(p->left!=NULL && (!stricmp(p->left->data,ch)) || p->right!=NULL && (!stricmp(p->right->data,ch)))
+		return p;
+	struct tree *temp=findparent(p->left,ch);
+	if(temp==NULL)
+	{
+		temp=findparent(p->right,ch);
+		return(temp);
+	}
+};
+int main()
+{
+	while(1)
+	{
+		system("cls");
+	char tag[10];
+	char s[10]="<";
+	struct tree *temp,*temp2,*root;
+	root = (struct tree*) malloc(sizeof(struct tree));
+	strcpy(root->data,"<HTML>");
+	root->left=insert("<HEAD>");
+	root->left->left=insert("<TITLE>");
+	root->left->right=insert("<LINK>");
+	root->right=insert("<BODY>");
+	root->right->left=insert("<TABLE>");
+	root->right->right=insert("<DIV>");
+	root->right->left->left=insert("<TR>");
+	root->right->left->right=insert("<TH>");
+	printf("	      	           _______________<HTML>_____________\n");
+	printf("                           |                                |\n");
+	printf("  	             ____<HEAD>___ 		     ____<BODY>____			\n");
+	printf("                    |             |                  |            |\n");
+	printf("	 	   <TITLE>      <LINK>         ____<TABLE>___    <DIV>			\n");
+	printf("                                               |            |\n");
+	printf("	 	 	        	      <TR>        <TH>			\n\n\n");
+	printf("tag :- \n");
+	scanf("%s",tag);
+	strcat(s,tag);
+	strcat(s,">");
+	temp=find(root,s);
+	if(temp==NULL)
+	printf("Element Not Found\n");
+	else
+	{
+		if(!stricmp(root->data,s))
+		printf("parent: No parent, It is a Root Element\n");
+		else
+		{
+			temp2=findparent(root,s);
+			printf("parent:	 %s \n",temp2->data);
+			if(temp2->left==temp)
+			printf("siblings: %s  \n",temp2->right->data);
+			if(temp2->right==temp)
+			printf("siblings: %s  \n",temp2->left->data);
+		}
+		printf("Children: ");
+		if(temp->left!=NULL)
+			printf("%s ",temp->left);
+		if(temp->right!=NULL)
+			printf(" %s\n",temp->right);
+		if(temp->left==NULL && temp->right==NULL)
+			printf(" :Leaf Node\n");
+		
+	}
+	printf("Continue? (y/n)\n\n");
+	char ch=getch();
+	if(ch=='n')
+		exit(1);
+	
+}
+}
+

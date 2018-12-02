@@ -1,0 +1,177 @@
+#include<stdio.h>
+#include<stdlib.h>
+#include<string.h>
+#include<conio.h>
+void detail()
+{
+	FILE *jk,*jk1;
+//	printf("\n\n\t\t\t1.Read your details");
+//	printf("\n\t\t\t2.Write your details");
+	scanf("");
+}
+	char strengthcheck(char a[])
+	{
+		int l,count1=0,count2=0,count3=0,count4=0;
+		for(l=0;a[l]!='\0';l++)
+		{
+			if(a[l]>=48&&a[l]<=57)
+			{
+				count1++;
+				
+			}
+			if(a[l]>=97&&a[l]<=122)
+			{
+				count2++;
+				
+			}
+			if(a[l]>=65&&a[l]<=90)
+			{
+				
+				count3++;
+			}
+			if(a[l]>=33&&a[l]<=47||a[l]==64)
+			{
+				count4++;
+			}
+			
+		}
+		if(count1>0&&count2>0&&count3>0&&count4>0)
+		{
+			printf("very strong password\n");
+			getch();
+		}
+		if(count1>0&&count2>0&&count3>0&&count4==0||count1>0&&count2>0&&count3==0&&count4>0||count1>0&&count2==0&&count3>0&&count4>0||count1==	0&&count2>0&&count3>0&&count4>0)
+		{
+			printf("strong password\n");
+			getch();
+		}
+		if(count1>0&&count2>0&&count3==0&&count4==0||count1==0&&count2>0&&count3>0&&count4==0||count1>0&&count2==0&&count3>0&&count4==0||count1==0&&count2>0&&count3==0&&count4>0||count1>0&&count2==0&&count3==0&&count4>0||count1==0&&count2==0&&count3==0&&count4>0)
+		{
+			printf("medium password\n");
+			getch();
+		}
+	    if(count1>0&&count2==0&&count3==0&&count4==0||count1==0&&count2>0&&count3==0&&count4==0||count1==0&&count2==0&&count3==0&&count4>0)
+	    {
+		printf("weak password\n");
+		getch();
+	}
+	}
+int main()
+{    top:
+	system("cls");
+	printf("\n\n\t1.Registration\n\t2.Login");
+	printf("\n\n\t\tClick On Your Choice:-");
+	int choice,i,j;
+	char name[100],pass[100],search[100],search1[100];
+	FILE *fp,fp1;
+	scanf("%d",&choice);
+
+	switch(choice)
+	{
+		case 1:
+			again:
+			system("cls");
+			system("color B");	
+			fp=fopen("atul.txt","a+");
+			printf("\n\t***************** WELCOME TO REGISTRATION PORTAL*******************\n");
+			printf("Enter your username\t");
+			fflush(stdin);
+			gets(name);
+			while(!feof(fp))
+			{
+				fscanf(fp,"%s",search);
+				if(strcmp(search,name)==0)
+				{
+					printf("this username is already used please re-enter the username");
+					getch();
+					rewind(fp);
+					goto again;
+				}
+			}
+			againp:
+			
+			
+			printf("\n\nEnter password of your desire= \t");
+			fflush(stdin);
+			gets(pass);	
+			int n;
+			n=strlen(pass);
+			if(n>=6)
+			{
+			
+			strengthcheck(pass);
+				fprintf(fp,"\n%s %s",name,pass);
+				printf("Congrats your registration is completed\n\n");
+				printf("Please Visit Again");
+				getch();
+				
+			}
+			else
+			{
+				printf("\nRetype your password\t");
+				goto againp;
+			}
+			fclose(fp);
+				break;
+				
+		case 2:
+					char get1[100];
+					int co=0;
+					system("cls");
+					system("color F");
+					fp=fopen("atul.txt","r");
+					l1:
+					printf("Enter your username\t");
+					fflush(stdin);
+					gets(search);
+					while(!feof(fp))
+					{
+						fscanf(fp,"%s",get1);
+						if(strcmp(get1,search)==0)
+						{
+						co=1;
+				        }
+			        }
+				
+					
+             					
+			         		
+						
+					
+						if(co==1)
+						{
+							printf("\nEnter your password\t");
+					fflush(stdin);
+					gets(search1);
+							
+							fscanf(fp,"%s",get1);
+							if(strcmp(search1,get1)==0)
+							{
+								co=2;
+								printf("you are sucessfully logged in");
+								detail();
+							}
+							else
+							{
+						         printf("password is incorrect please retype the details again\n");
+						         rewind(fp);
+						         goto l1;
+						   }
+								 
+						
+						}
+						if(co==0)
+						{
+							printf("you have not registered yet please register first\n");
+							getch();
+							goto top;
+						}
+						
+				fclose(fp);
+					
+					
+			
+			
+	}
+	
+}

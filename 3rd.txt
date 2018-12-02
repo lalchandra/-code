@@ -1,0 +1,170 @@
+
+
+#include<iostream>
+#include<string.h>
+using namespace std;
+
+class video
+{
+	public :
+	int video_id;
+	char subject[15];
+	char topic[15];
+	int min,sec;
+	int d,m,y;
+	char url[50];
+	
+	void getdata()
+	{
+	cout<<"video_id :";
+	cin>>video_id;
+	cout<<"subject :";
+	cin>>subject;
+	cout<<"topic :";
+	cin>>topic;
+	cout<<"duration :-min:sec\n";
+	cin>>min>>sec;
+	cout<<"date :-dd//mm/year\n";
+	cin>>d>>m>>y;
+	cin>>d>>m>>y;
+	cout<<"URL :";
+	cin>>url;
+	cout<<endl;
+	}	
+  };
+  class file
+  {
+  	public :
+  		char list[100];
+  		char word[10];
+  		void getdata(int n)
+  		{
+  			int k=0;
+  			cout<<"enter the name of topics : \n";
+  			for(int i=0;i<n;i++)
+  			{
+  				cin>>word;
+  				for(int j=0;word[j]!='\0';j++)
+  				{
+  					list[k++]=word[j];
+				  }
+				  list[k++]='-';
+			  }
+			  list[k]='\0';
+		  }
+		  void display()
+		  {
+		  	cout<<list<<endl;
+		  }
+		  char *arrangment()
+		  {
+		  	static int k=0;
+		  	while(list[k]!='\0')
+		  	{
+		  		if(list[k]=='-')
+		  		k++;
+		  		else
+		  		{
+		  			int j=0;
+		  			while(list[k]!='-')
+		  			{
+		  				word[j++]=list[k++];
+					  }
+					  word[j]='\0';
+					  return word;
+				  }
+			  }
+		  }
+  };
+  class node
+  {
+  	public :
+  		video v;
+  		node *next;
+  		node()
+  		{
+  			next=NULL;
+		  }
+	};
+	class list
+	{
+		public :
+			node *start;
+			list()
+			{
+				start=NULL;
+			}
+			void insert(video v1)
+			{
+				node *temp,*p;
+				temp=new node;
+				if(start==NULL)
+				{
+					temp->v=v1;
+					//temp->next=start;
+					start=temp;
+					//return start;
+				
+				}
+				else
+				{
+					temp->v=v1;
+					p=start;
+					while(p->next!=NULL)
+					p=p->next;
+					p->next=temp;
+				}
+				//temp->next=NULL;
+				//return start;
+			}
+			void display()
+			{
+				node *p;
+				p=start;
+				while(p!=NULL)
+				{
+					cout<<"video_id="<<p->v.video_id<<endl;
+					cout<<"subject="<<p->v.subject<<endl;
+					cout<<"topic="<<p->v.topic<<endl;
+					cout<<"duration="<<p->v.min<<":"<<p->v.sec<<endl;
+					cout<<"date="<<p->v.d<<"/"<<p->v.m<<"/"<<p->v.y<<endl;
+					cout<<"URL="<<p->v.url<<endl;
+					cout<<endl;
+					p=p->next;
+				}
+			}
+	  };
+	  int main()
+	  {
+	  	list obj;
+	  	int n;
+	  	char word[15];
+	  	video *v;
+	  	cout<<"Enter the no of video to insert :";
+	  	cin>>n;
+	  	v=new video[n];
+	  	file f;
+	  	for(int i=0;i<n;i++)
+	  	v[i].getdata();
+	  	cout<<"creating file"<<endl;
+	  	f.getdata(n);
+	  	f.display();
+	  	for(int i=0;i<n;i++)
+	  	{
+	  		strcpy(word,f.arrangment());
+	  		int flag=0;
+	  		for(int j=0;j<n;j++)
+	  		{
+	  			if(strcmp(v[j].topic,word)==0)
+	  			{
+	  				flag=1;
+	  				obj.insert(v[j]);
+				  }
+				  if(flag==0)
+				  {
+				  	cout<<"#######video for topic is"<<word<<"is not present#########"<<endl;
+				  }
+			  }
+			  obj.display();
+		  }
+	  }

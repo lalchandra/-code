@@ -1,0 +1,99 @@
+
+
+#include<stdio.h>
+#include<stdlib.h>
+#include<conio.h>
+int re_do();
+int un_do();
+char stack[100];
+int top=-1;
+void input(){
+	FILE *fp;
+	char str[50],ch;
+	fp=fopen("data.txt","w");
+	printf("\n\t\tenter the data\t");	
+	fflush(stdin);
+	gets(str);
+	fprintf(fp,"%s",str);
+	fclose(fp);
+}
+void output(){
+	FILE *fp;
+	char ch[100];
+	fp=fopen("data.txt","r");
+	fscanf(fp,"%s",ch);
+	    printf("%s",ch);
+	getch();
+	fclose(fp);
+}
+
+int main()
+{
+		  int ch;
+		  
+		  
+		    system("cls");
+		  printf("\n\t\t1. Write \n\t\t2. Read \n\t\t3. undo \n\t\t4. redo\n");
+		  printf("\n\t\tEnter your choice\t");
+		  scanf("%d",&ch);
+		  switch(ch)
+		  {
+		  	case 1: input();
+		  	        break;
+		  	case 2: output();
+		  			break;
+		  	case 3: un_do();
+			   
+		  	        break;
+		  	case 4: re_do();
+		  			break;
+		  
+			  default:
+		  		    printf("\nInvalid choice");
+		  }	  
+}
+
+int un_do()
+{
+
+	 FILE *fp,*pf;
+	 char ch;
+	 fp=fopen("data.txt","r+");
+	fseek(fp,-1,2);
+	ch=fgetc(fp);
+	stack[++top]=ch;
+	fseek(fp,-1,2);
+	printf("\nThis character is romoved: %c",ch);
+	fputc(EOF,fp);
+	rewind(fp);
+	pf=fopen("sample.txt","w+");
+	while((ch=fgetc(fp))!=EOF)
+	      fputc(ch,pf);
+	fclose(pf);
+	fclose(fp);
+	remove("data.txt");
+	rename("sample.txt","data.txt");
+getch();
+	 main();
+	 
+}
+int re_do()
+{
+	FILE *fp;
+	if(top==-1)
+	  {
+	  	printf("\nEmpty file");
+	  	getch();
+	  	return 0;
+	  }
+	fp=fopen("data.txt","r+");
+	fseek(fp,0,2);
+	fputc(stack[top],fp);
+	printf("\nAfter redo=%c",stack[top]);
+	top--;
+	fclose(fp);
+	
+	
+}
+
+

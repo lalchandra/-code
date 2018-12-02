@@ -1,0 +1,88 @@
+#include<stdio.h>
+#include<string.h>
+#include<stdlib.h>
+struct college
+{
+	char col[10];
+	char br[3][3];
+	
+}c[5];
+void getinfo()
+{
+	int i,j;
+	for(i=0;i<5;i++)
+	{
+		printf("\nEnter the college name: ");
+		gets(c[i].col);
+		for(j=0;j<3;j++)
+		{
+			printf("\n Enter the branch of college: ");
+			gets(c[i].br[j]);
+			
+		}
+	}
+}
+int precol()
+{
+	int i;
+	char coll[10];
+	printf("\n Enter your college choice: ");
+	scanf("%s",&coll);
+	for(i=0;i<5;i++)
+	{
+		if(strcmp(c[i].col,coll)==0)
+		return i;
+		
+	}
+}
+int prebr()
+{
+	int i,j;
+	char br[3];
+	printf("\n Enter your branch choice: ");
+	scanf("%s",&br);
+	for(i=0;i<5;i++)
+	{
+		for(j=0;j<3;j++)
+		{
+			if(strcmp(c[i].br[j],br)==0)
+			return j;
+			
+		}
+	}
+}
+int main()
+{
+	int x,y,i,j;
+	getinfo();
+	int seat[5][3];
+	printf("\n Available seat:\n");
+	for(i=0;i<5;i++)
+	{
+		for(j=0;j<3;j++)
+	     scanf("%d",&seat[i][j]);
+		 printf("\n");
+	}
+	x=precol();
+	y=prebr();
+	if(seat[x][y]>0)
+	{
+		seat[x][y]--;
+		printf("\n********************************");
+		printf("\n congratulations ! your admission is success");
+		printf("\n Remaining seat:");
+		
+	}
+	else
+	{
+		printf("\n Sorry no vacant seat:");
+	}
+	for(i=0;i<5;i++)
+	{
+		for(j=0;j<3;j++)
+		printf("%d",seat[i][j]);
+		printf("\n");
+		
+	}
+	return 0;
+}
